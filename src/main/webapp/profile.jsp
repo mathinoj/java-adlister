@@ -8,6 +8,8 @@
 <body>
     <jsp:include page="partials/navbar.jsp" />
 
+    <div>${adminView}</div>
+
     <div class="container">
         <h1>Viewing your profile.</h1>
     </div>

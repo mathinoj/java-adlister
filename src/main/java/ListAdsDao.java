@@ -4,12 +4,18 @@ import java.util.List;
 public class ListAdsDao implements Ads {
     private List<Ad> ads;
 
+//    public void insert(Ad ad){
+//        this.ads.add(ad);
+//    }
+
     public List<Ad> all() {
         if (ads == null) {
             ads = generateAds();
         }
         return ads;
     }
+
+
 
     private List<Ad> generateAds() {
         List<Ad> ads = new ArrayList<>();
