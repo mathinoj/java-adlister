@@ -1,5 +1,6 @@
 package com.codeup.adlister.dao;
 
+import com.codeup.adlister.Config;
 import com.codeup.adlister.models.Ad;
 import com.mysql.cj.jdbc.Driver;
 
@@ -38,10 +39,23 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+//    String sql = "INSERT INTO products(name, category, price) VALUES (?, ?, ?)";
+//    PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//
+//// For the sake of easier demonstration we are using literals here
+//stmt.setString(1, "hammer");
+//stmt.setString(2, "tools");
+//stmt.setFloat(3, 19.99);
+//
+//stmt.executeUpdate();
+//    ResultSet generatedIdResultSet = stmt.getGeneratedKeys();
+
+
     @Override
     public Long insert(Ad ad) {
         try {
-            Statement stmt = connection.createStatement();
+//            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            Statement stmt = connection.createStatement(); //COMMENTED OUT JUST TO TRY THE CODE ON 47
             stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
@@ -51,12 +65,27 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+//    private String createInsertQuery(Ad ad) {
+//        return "INSERT INTO ads(user_id, title, description) VALUES "
+//            + "(" + ad.getUserId() + ", "
+//            + "'" + ad.getTitle() +"', "
+//            + "'" + ad.getDescription() + "')";
+//    }
+
     private String createInsertQuery(Ad ad) {
-        return "INSERT INTO ads(user_id, title, description) VALUES "
-            + "(" + ad.getUserId() + ", "
-            + "'" + ad.getTitle() +"', "
-            + "'" + ad.getDescription() + "')";
+        String sql = "INSERT INTO ads(user_id, title, description) VALUES (?, ?, ?)";
+        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+// For the sake of easier demonstration we are using literals here
+        stmt.setInt(1, 1);
+        stmt.setString(2, "tools");
+        stmt.setString(3, "stool tool");
+
+        stmt.executeUpdate();
+        ResultSet generatedIdResultSet = stmt.getGeneratedKeys();
     }
+
+
 
     private Ad extractAd(ResultSet rs) throws SQLException {
         return new Ad(
@@ -75,3 +104,5 @@ public class MySQLAdsDao implements Ads {
         return ads;
     }
 }
+
+
